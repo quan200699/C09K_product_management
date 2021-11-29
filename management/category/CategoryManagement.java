@@ -3,8 +3,7 @@ package com.codegym.management.category;
 import com.codegym.model.Category;
 import com.codegym.model.Product;
 
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -36,13 +35,21 @@ public class CategoryManagement implements ICategoryManagement {
     @Override
     public void writeToFile() {
         try {
-            FileWriter fileWriter = new FileWriter(FILE_PATH);
-            for (Category category: categories) {
-                fileWriter.write(category.toString());
-                fileWriter.write("\n");
-            }
-            fileWriter.close();
+            FileOutputStream fos = new FileOutputStream(FILE_PATH);
+            ObjectOutputStream oos = new ObjectOutputStream(fos);
+            oos.writeObject(categories);
         } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void readFile() {
+        try {
+            FileInputStream fis = new FileInputStream(FILE_PATH);
+            ObjectInputStream ois = new ObjectInputStream(fis);
+            categories = (List<Category>) ois.readObject();
+        } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
         }
     }

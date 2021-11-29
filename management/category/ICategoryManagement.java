@@ -5,4 +5,5 @@ import com.codegym.model.Category;
 
 public interface ICategoryManagement extends IGeneralManagement<Category> {
     void writeToFile();
+    void readFile();
 }
